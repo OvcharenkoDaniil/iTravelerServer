@@ -1,0 +1,12 @@
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\bin\Debug\net6.0\iTravelerServer.Domain.deps.json
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\bin\Debug\net6.0\iTravelerServer.Domain.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\bin\Debug\net6.0\iTravelerServer.Domain.pdb
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\iTravelerServer.Domain.csproj.AssemblyReference.cache
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\iTravelerServer.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\iTravelerServer.Domain.AssemblyInfoInputs.cache
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\iTravelerServer.Domain.AssemblyInfo.cs
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\iTravelerServer.Domain.csproj.CoreCompileInputs.cache
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\iTravelerServer.Domain.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\refint\iTravelerServer.Domain.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\iTravelerServer.Domain.pdb
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Domain\obj\Debug\net6.0\ref\iTravelerServer.Domain.dll

@@ -1,0 +1,17 @@
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\bin\Debug\net6.0\iTravelerServer.Service.deps.json
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\bin\Debug\net6.0\iTravelerServer.Service.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\bin\Debug\net6.0\iTravelerServer.Service.pdb
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\bin\Debug\net6.0\iTravelerServer.DAL.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\bin\Debug\net6.0\iTravelerServer.Domain.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\bin\Debug\net6.0\iTravelerServer.DAL.pdb
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\bin\Debug\net6.0\iTravelerServer.Domain.pdb
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.csproj.AssemblyReference.cache
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.AssemblyInfoInputs.cache
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.AssemblyInfo.cs
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.csproj.CoreCompileInputs.cache
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.csproj.CopyComplete
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\refint\iTravelerServer.Service.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\iTravelerServer.Service.pdb
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer.Service\obj\Debug\net6.0\ref\iTravelerServer.Service.dll

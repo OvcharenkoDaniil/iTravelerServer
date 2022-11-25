@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{3AFF0412-82C1-434C-8BE9-30027A646D67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTravelerServer.DAL", "iTravelerServer.DAL\iTravelerServer.DAL.csproj", "{9E1CABEC-11C1-4029-90D0-37EB2E36B975}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{6E0E5920-6FD6-4F8A-A988-EFB8DFB5C44F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{38923597-CA98-46B6-BBF6-863118D72C03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTravelerServer.Domain", "iTravelerServer.Domain\iTravelerServer.Domain.csproj", "{D32DB7FD-AFA8-4ED8-BCA3-5F8C72241290}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTravelerServer.Service", "iTravelerServer.Service\iTravelerServer.Service.csproj", "{88CA49C6-9189-4823-8726-6CA662D6B434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTravelerServer", "iTravelerServer\iTravelerServer.csproj", "{BDFC14EA-98F7-4347-94A1-CE14638B3087}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{5E00A4CB-57F3-48EF-A4EA-8C199647C78F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTraveler.Auth", "iTraveler.Auth\iTraveler.Auth.csproj", "{DB05A2DD-6059-4806-95E6-CF4F629DCDCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E1CABEC-11C1-4029-90D0-37EB2E36B975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E1CABEC-11C1-4029-90D0-37EB2E36B975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E1CABEC-11C1-4029-90D0-37EB2E36B975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E1CABEC-11C1-4029-90D0-37EB2E36B975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D32DB7FD-AFA8-4ED8-BCA3-5F8C72241290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D32DB7FD-AFA8-4ED8-BCA3-5F8C72241290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D32DB7FD-AFA8-4ED8-BCA3-5F8C72241290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D32DB7FD-AFA8-4ED8-BCA3-5F8C72241290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88CA49C6-9189-4823-8726-6CA662D6B434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CA49C6-9189-4823-8726-6CA662D6B434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88CA49C6-9189-4823-8726-6CA662D6B434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CA49C6-9189-4823-8726-6CA662D6B434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDFC14EA-98F7-4347-94A1-CE14638B3087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDFC14EA-98F7-4347-94A1-CE14638B3087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDFC14EA-98F7-4347-94A1-CE14638B3087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDFC14EA-98F7-4347-94A1-CE14638B3087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB05A2DD-6059-4806-95E6-CF4F629DCDCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB05A2DD-6059-4806-95E6-CF4F629DCDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB05A2DD-6059-4806-95E6-CF4F629DCDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB05A2DD-6059-4806-95E6-CF4F629DCDCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E1CABEC-11C1-4029-90D0-37EB2E36B975} = {3AFF0412-82C1-434C-8BE9-30027A646D67}
+		{D32DB7FD-AFA8-4ED8-BCA3-5F8C72241290} = {6E0E5920-6FD6-4F8A-A988-EFB8DFB5C44F}
+		{88CA49C6-9189-4823-8726-6CA662D6B434} = {38923597-CA98-46B6-BBF6-863118D72C03}
+		{DB05A2DD-6059-4806-95E6-CF4F629DCDCE} = {5E00A4CB-57F3-48EF-A4EA-8C199647C78F}
+	EndGlobalSection
+EndGlobal
