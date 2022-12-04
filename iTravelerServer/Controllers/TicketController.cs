@@ -87,9 +87,9 @@ public class TicketController : Controller
     }
 
     //[Authorize]
-    [HttpGet]
-    [Route("GetFillteredTickets")] //TicketSearchRequest filter
-    public List<TicketListVM> GetFillteredTickets(TicketSearchRequest filter)
+    //[Route("GetFilteredTickets")] //TicketSearchRequest filter
+    [HttpPost("GetFilteredTickets")]
+    public List<TicketListVM> GetFilteredTickets(TicketSearchRequest filter)
     {
         var response = _flightService.GetFlightList();
 

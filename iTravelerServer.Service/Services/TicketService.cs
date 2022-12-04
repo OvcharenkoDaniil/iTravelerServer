@@ -83,11 +83,12 @@ public class TicketService : ITicketService
                 if (
                     item.FwArrivalCity == filter.ArrivalCity &&
                     item.FwDepartureCity == filter.DepartureCity &&
-                    item.FwDepartureDate == filter.DepartureDate
+                    item.FwDepartureDate.Date == filter.DepartureDate.Date
                     //item.BwDepartureDate==filter.ReturnDate
                 )
                 {
-                    if (filter.FlightClass == "FirstClass" && item.FwFirstClassCapacity >= filter.NumberOfPassangers)
+                    if (filter.FlightClass == "FirstClass" && 
+                        item.FwFirstClassCapacity >= filter.NumberOfPassangers)
                     {
                         fwTicketList.Add(item);
                     }
@@ -102,11 +103,12 @@ public class TicketService : ITicketService
                 if (
                     item.FwArrivalCity == filter.DepartureCity &&
                     item.FwDepartureCity == filter.ArrivalCity &&
-                    item.FwDepartureDate == filter.ReturnDate
+                    item.FwDepartureDate.Date == filter.ReturnDate.Date
                     //item.BwDepartureDate==filter.ReturnDate
                 )
                 {
-                    if (filter.FlightClass == "FirstClass" && item.FwFirstClassCapacity >= filter.NumberOfPassangers)
+                    if (filter.FlightClass == "FirstClass" && 
+                        item.FwFirstClassCapacity >= filter.NumberOfPassangers)
                     {
                         bwTicketList.Add(item);
                     }
@@ -129,6 +131,7 @@ public class TicketService : ITicketService
                         ticket.TicketElem_id = i;
                         ticket.FwFlight_id = fwTicket.Flight_id;
                         ticket.BwFlight_id = bwTicket.Flight_id;
+                        ticket.NumberOfPassengers = filter.NumberOfPassangers;
                         ticket.TotalPrice = fwTicket.FwPrice + bwTicket.FwPrice;
 
                         ticket.FwDepartureCity = fwTicket.FwDepartureCity;
@@ -171,13 +174,20 @@ public class TicketService : ITicketService
                         i++;
                     }
                 }
+
+                return new BaseResponse<List<TicketListVM>>()
+                {
+                    Data = ticketList,
+                    StatusCode = StatusCode.OK
+                };
             }
 
             return new BaseResponse<List<TicketListVM>>()
             {
-                Data = ticketList,
-                StatusCode = StatusCode.OK
+                Description = "there is not such tickets",
+                StatusCode = StatusCode.NotFound
             };
+
         }
         catch (Exception ex)
         {

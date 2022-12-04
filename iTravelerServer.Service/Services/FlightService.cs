@@ -38,23 +38,21 @@ namespace iTravelerServer.Service.Services
             //var baseResponse = new BaseResponse<IEnumerable<TicketListVM>>();
             try
             {
-                var fwDepAirport = (from tickets in _db.Ticket
-                    join flights in _db.Flight on tickets.FwFlight_id equals flights.Flight_id
+                //tickets in _db.Ticket join on tickets.FwFlight_id equals flights.Flight_id
+                var fwDepAirport = (from flights in _db.Flight 
                     join airports in _db.Airport on flights.DepartureAirport_id equals airports.Airport_id
                     select airports).ToList();
 
-                var fwArrAirport = (from tickets in _db.Ticket
-                    join flights in _db.Flight on tickets.FwFlight_id equals flights.Flight_id
+                var fwArrAirport = (from flights in _db.Flight
                     join airports in _db.Airport on flights.ArrivalAirport_id equals airports.Airport_id
                     select airports).ToList();
 
-                var fwValues = (from tickets in _db.Ticket
-                    join flights in _db.Flight on tickets.FwFlight_id equals flights.Flight_id
+                var fwValues = (from flights in _db.Flight 
                     join planes in _db.Plane on flights.Plane_id equals planes.Plane_id
                     join transfers in _db.Transfer on flights.Transfer_id equals transfers.Transfer_id
                     select new
                     {
-                        tickets.Price,
+                        flights.Price,
                         planes.Aircompany_name,
                         planes.StandardClassCapacity,
                         planes.FirstClassCapacity,
@@ -99,6 +97,7 @@ namespace iTravelerServer.Service.Services
                 var flight = new FlightListVM();
                 for (int i = 0; i < fwValues.Count; i++)
                 {
+                    flight = new FlightListVM();
                     //ticket.TotalPrice = fwValues[i].Price + bwValues[i].Price;
                     flight.Flight_id = fwValues[i].Flight_id;
                     flight.FwDepartureCity = fwDepAirport[i].City;

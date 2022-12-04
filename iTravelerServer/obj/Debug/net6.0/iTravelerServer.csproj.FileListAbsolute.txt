@@ -67,3 +67,5 @@ D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer\bin\Debug\net6.0\iTr
 D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer\bin\Debug\net6.0\iTraveler.Auth.dll
 D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer\bin\Debug\net6.0\iTraveler.Auth.pdb
 D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer\bin\Debug\net6.0\AutoMapper.dll
+D:\DIPLOM\ITraveler\Backend\iTravelerServer\iTravelerServer\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
