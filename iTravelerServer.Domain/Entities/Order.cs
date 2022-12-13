@@ -10,6 +10,8 @@ public class Order
     public int NumberOfTickets { get; set; }
     public int Ticket_id { get; set; }
     
+    public string FlightClass { get; set; }
+    
     public DateTime CreationDate { get; set; }    
     public DateTime ExpirationDate { get; set; }    
 }

@@ -18,15 +18,20 @@ public class OrderRepository : IBaseRepository<Order>
         return _db.Order;
     }
 
-    public Task<Order?> Get(Order entity)
+    public Order Get(Order entity)
     {
         throw new NotImplementedException();
+    }
+
+    public Order Get(int id)
+    {
+        return _db.Order.Find(id);
     }
 
     public async Task Delete(Order entity)
     {
         _db.Order.Remove(entity);
-        await _db.SaveChangesAsync();
+         _db.SaveChanges();
     }
 
     public async Task Create(Order entity)
@@ -39,6 +44,14 @@ public class OrderRepository : IBaseRepository<Order>
     {
         _db.Order.Update(entity);
         await _db.SaveChangesAsync();
+
+        return entity;
+    }
+
+    public Order UpdateSync(Order entity)
+    {
+        _db.Order.Update(entity);
+        _db.SaveChangesAsync();
 
         return entity;
     }
