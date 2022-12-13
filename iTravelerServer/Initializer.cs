@@ -15,7 +15,7 @@ namespace Automarket
     {
         public static void InitializeRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IBaseRepository<Flight>, FlightRepository>();
+             services.AddScoped<IBaseRepository<Flight>, FlightRepository>();
              services.AddScoped<IBaseRepository<Account>, AccountRepository>();
              services.AddScoped<IBaseRepository<Plane>, PlaneRepository>();
              services.AddScoped<IBaseRepository<Airport>, AirportRepository>();
@@ -37,7 +37,6 @@ namespace Automarket
             services.AddScoped<IAccountService, AccountService>();
             
             //services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<ITicketListService, TicketListService>();
         }
     }
 }

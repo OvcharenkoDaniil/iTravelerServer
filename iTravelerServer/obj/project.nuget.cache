@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zVKANvha4VUitjpzxM9qpkfWWEkGlarNzvKtPtM59nYwkHCjTbIFYTBn8D5cR6/0+nih4sEmnG3QPgH5oZLwtA==",
+  "dgSpecHash": "tKPYLjq78KByVNyrCKpn8khhtzpSa1d5ro95+mnaT5Tk+3V8eBLKsqZWSAE7ujpNjBGlUqDEiO96eeq0C86Afw==",
   "success": true,
   "projectFilePath": "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer\\iTravelerServer.csproj",
   "expectedPackageFiles": [
@@ -33,6 +33,7 @@
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.10.0\\microsoft.identitymodel.tokens.6.10.0.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",

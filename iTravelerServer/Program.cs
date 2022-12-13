@@ -2,13 +2,13 @@ using System.Text;
 using Automarket;
 using iTraveler.Auth;
 using iTravelerServer.DAL;
+using iTravelerServer.Domain.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 var secretKey = builder.Configuration.GetSection("AppSettings:Key").Value;
@@ -17,13 +17,14 @@ var key = new SymmetricSecurityKey(Encoding.UTF8
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     // services.AddAuthentication("Bearer")
-    .AddJwtBearer(opt => {
+    .AddJwtBearer(opt =>
+    {
         opt.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             ValidateIssuer = false,
             ValidateAudience = false,
-            IssuerSigningKey = key                        
+            IssuerSigningKey = key
         };
     });
 // builder.Services.AddAuthentication(options =>
@@ -59,12 +60,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-        });
+        builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 });
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
 
 // Add services to the container.

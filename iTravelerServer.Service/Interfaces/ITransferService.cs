@@ -9,5 +9,8 @@ namespace iTravelerServer.Service.Interfaces
     public interface ITransferService
     {
         Task<BaseResponse<IEnumerable<Transfer>>> GetTransfers();
+        BaseResponse<Transfer> GetTransfer(int transferId);
+        BaseResponse<bool> UpdateTransfer(int transferId, Transfer transferData);
+
     }   
 }

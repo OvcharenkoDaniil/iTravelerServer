@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "YT4tRVTSuRM33MKxdG3KOvra+YiJ/F9hS/Q/Sc2CBAaqjNo2satOKaA4ain28Oki4w4VjjDCvLhaBDy3avDSvg==",
+  "dgSpecHash": "Bd4WT5kI1mpn+j8jLtnkQYiw3e4fD7jHu/CZ70x0VRVdW0IMIldESFxiK4NGxkfqWB4GdC9kGGm/7mjcn8NEsQ==",
   "success": true,
   "projectFilePath": "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.DAL\\iTravelerServer.DAL.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.10\\microsoft.entityframeworkcore.6.0.10.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.10\\microsoft.entityframeworkcore.abstractions.6.0.10.nupkg.sha512",
     "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.10\\microsoft.entityframeworkcore.analyzers.6.0.10.nupkg.sha512",

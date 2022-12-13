@@ -17,9 +17,14 @@ public class TransferRepository : IBaseRepository<Transfer>
         return _db.Transfer;
     }
 
-    public Task<Transfer?> Get(Transfer entity)
+    public Transfer Get(Transfer entity)
     {
         throw new NotImplementedException();
+    }
+
+    public Transfer Get(int id)
+    {
+        return _db.Transfer.Find(id);
     }
 
     public async Task Delete(Transfer entity)
@@ -36,9 +41,18 @@ public class TransferRepository : IBaseRepository<Transfer>
 
     public async Task<Transfer> Update(Transfer entity)
     {
+        
         _db.Transfer.Update(entity);
         await _db.SaveChangesAsync();
 
+        return entity;
+    }
+
+    public Transfer UpdateSync(Transfer entity)
+    {
+        _db.Transfer.Update(entity);
+        _db.SaveChanges();
+    
         return entity;
     }
 }

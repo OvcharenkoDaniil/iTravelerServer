@@ -18,10 +18,14 @@ public class AirportRepository : IBaseRepository<Airport>
         return _db.Airport;
     }
 
-    public Task<Airport?> Get(Airport entity)
+    public Airport Get(Airport entity)
     {
         throw new NotImplementedException();
     }
+
+    public Airport Get(int id)
+    {
+        return _db.Airport.Find(id);    }
 
     public async Task Delete(Airport entity)
     {
@@ -39,6 +43,14 @@ public class AirportRepository : IBaseRepository<Airport>
     {
         _db.Airport.Update(entity);
         await _db.SaveChangesAsync();
+
+        return entity;
+    }
+
+    public Airport UpdateSync(Airport entity)
+    {
+        _db.Airport.Update(entity);
+        _db.SaveChanges();
 
         return entity;
     }

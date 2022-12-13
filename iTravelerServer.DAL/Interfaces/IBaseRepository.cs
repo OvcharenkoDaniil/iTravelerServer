@@ -8,10 +8,14 @@ namespace iTravelerServer.DAL.Interfaces
         Task Create(T entity);
 
         IQueryable<T> GetAll();
-        Task<T?> Get(T entity);
+        T Get(T entity);
+        T Get(int id);
+        
 
         Task Delete(T entity);
 
         Task<T> Update(T entity);
+        T UpdateSync(T entity);
+        
     }
 }

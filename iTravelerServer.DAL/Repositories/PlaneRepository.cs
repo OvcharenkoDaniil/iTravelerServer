@@ -3,7 +3,6 @@ using iTravelerServer.Domain.Entities;
 
 namespace iTravelerServer.DAL.Repositories;
 
-
 public class PlaneRepository : IBaseRepository<Plane>
 {
     private readonly ApplicationDbContext _db;
@@ -18,9 +17,14 @@ public class PlaneRepository : IBaseRepository<Plane>
         return _db.Plane;
     }
 
-    public Task<Plane?> Get(Plane entity)
+    public Plane Get(Plane entity)
     {
         throw new NotImplementedException();
+    }
+
+    public Plane Get(int id)
+    {
+        return _db.Plane.Find(id);    
     }
 
     public async Task Delete(Plane entity)
@@ -39,6 +43,14 @@ public class PlaneRepository : IBaseRepository<Plane>
     {
         _db.Plane.Update(entity);
         await _db.SaveChangesAsync();
+
+        return entity;
+    }
+
+    public Plane UpdateSync(Plane entity)
+    {
+        _db.Plane.Update(entity);
+        _db.SaveChanges();
 
         return entity;
     }

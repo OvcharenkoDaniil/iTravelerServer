@@ -10,8 +10,8 @@ namespace iTravelerServer.Domain.ViewModels.AccountVM
         // [DataType(DataType.Password)]
         // [Display(Name = "Пароль")]
         // [MinLength(5, ErrorMessage = "Пароль должен быть больше или равен 5 символов")]
-        public string UserPassword { get; set; }
-        public string NewPassword { get; set; }
-        public string Email { get; set; }
+        public string password { get; set; }
+        public string newPassword { get; set; }
+        public string email { get; set; }
     }
 }

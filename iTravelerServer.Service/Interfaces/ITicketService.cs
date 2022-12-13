@@ -9,5 +9,13 @@ namespace iTravelerServer.Service.Interfaces;
     {
         Task<BaseResponse<IEnumerable<Ticket>>> GetTickets();
         BaseResponse<List<TicketListVM>> GetTicketList(List<FlightListVM> flightList, TicketSearchRequest filter);
+        BaseResponse<Ticket> AddTicket(Ticket ticket);
+
+        TicketListVM createTicket(
+            FlightListVM fwTicket,
+            FlightListVM bwTicket,
+            int NumberOfPassangers,
+            int i
+        );
 
     }   
