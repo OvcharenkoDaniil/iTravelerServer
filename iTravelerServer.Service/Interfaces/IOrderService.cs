@@ -10,7 +10,7 @@ namespace iTravelerServer.Service.Interfaces
 {
     public interface IOrderService
     {
-        Task<BaseResponse<IEnumerable<Order>>> GetOrders();
+        Task<BaseResponse<List<Order>>> GetOrders();
         Task<BaseResponse<Order>> AddOrder(OrderVM orderVM);
 
         BaseResponse<List<TicketListVM>> GetOrdersList(List<FlightListVM> flightList, string email,

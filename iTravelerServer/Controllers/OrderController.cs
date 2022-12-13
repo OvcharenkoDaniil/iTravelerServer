@@ -10,14 +10,14 @@ namespace iTravelerServer.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class OrderController:Controller
+public class OrderController : Controller
 {
     private readonly IOrderService _orderService;
     private readonly IFlightService _flightService;
     private readonly ITicketService _ticketService;
 
     //[Authorize(Roles = "User")]
-    public OrderController(IOrderService orderService , IFlightService flightService, ITicketService ticketService)
+    public OrderController(IOrderService orderService, IFlightService flightService, ITicketService ticketService)
     {
         _orderService = orderService;
         _flightService = flightService;
@@ -25,34 +25,36 @@ public class OrderController:Controller
     }
 
     [Authorize(Roles = "User")]
-    [Route("AddOrder")] 
+    [Route("AddOrder")]
     [HttpPost]
     public async Task<bool> AddOrder(OrderVM order)
     {
         //TicketListVM ticket = new TicketListVM();
         var response = await _orderService.AddOrder(order);
-         if (response.StatusCode == Domain.Enum.StatusCode.OK)
-         {
-             return true;
-         }
+        if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return true;
+        }
+
         return false;
     }
+
     
-    [Authorize(Roles = "User")]
-    [Route("DeleteOrder")] 
+    [Route("DeleteOrder")]
     [HttpPost]
     public async Task<bool> DeleteOrder(OrderDataVM order)
     {
-         var response = await _orderService.DeleteOrder(order.orderId);
-          if (response.StatusCode == Domain.Enum.StatusCode.OK)
-          {
-              return true;
-          }
+        var response = await _orderService.DeleteOrder(order.orderId);
+        if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return true;
+        }
+
         return false;
     }
-    
+
     [Authorize(Roles = "User")]
-    [Route("GetOrders")] 
+    [Route("GetOrders")]
     [HttpPost]
     public List<TicketListVM> GetOrders(AccountVM accountVm)
     {
@@ -61,8 +63,7 @@ public class OrderController:Controller
         var response = _flightService.GetFlightList();
         if (response.StatusCode == Domain.Enum.StatusCode.OK)
         {
-            
-            var listOfSortedTickets = _orderService.GetOrdersList(response.Data, accountVm.email,_ticketService);
+            var listOfSortedTickets = _orderService.GetOrdersList(response.Data, accountVm.email, _ticketService);
 
             if (listOfSortedTickets.StatusCode == Domain.Enum.StatusCode.OK)
             {
@@ -72,5 +73,18 @@ public class OrderController:Controller
 
         return null;
     }
+
+
     
+    [Route("GetAllOrders")]
+    [HttpGet]
+    public async Task<List<Order>> GetAllOrders()
+    {
+        var response = await _orderService.GetOrders();
+        if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return response.Data;
+        }
+        return null;
+    }
 }

@@ -39,20 +39,21 @@ namespace iTravelerServer.Service.Services
             //_ticketService = ticketService;
         }
 
-        public async Task<BaseResponse<IEnumerable<Order>>> GetOrders()
+        public async Task<BaseResponse<List<Order>>> GetOrders()
         {
             var baseResponse = new BaseResponse<IEnumerable<Order>>();
             try
             {
                 var orders = await _orderRepository.GetAll().ToListAsync();
-
-
-                baseResponse.Data = orders;
-                return baseResponse;
+                return new BaseResponse<List<Order>>()
+                {
+                    Data = orders,
+                    StatusCode = StatusCode.OK
+                };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<IEnumerable<Order>>()
+                return new BaseResponse<List<Order>>()
                 {
                     Description = $"[GetOrders] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError
@@ -235,17 +236,12 @@ namespace iTravelerServer.Service.Services
                         ticketList.Add(item);
                         
                     }
-
-                    
-
                     return new BaseResponse<List<TicketListVM>>()
                     {
                         Data = ticketList,
                         StatusCode = StatusCode.OK
                     };
                 }
-
-
                 return new BaseResponse<List<TicketListVM>>()
                 {
                     Description = "there is not such tickets",
