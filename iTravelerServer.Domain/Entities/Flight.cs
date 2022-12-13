@@ -18,6 +18,8 @@ public class Flight
     public int Transfer_id { get; set; }
     public int DepartureAirport_id { get; set; }
     public int ArrivalAirport_id { get; set; }
+    public int FirstClassTicketsLeft { get; set; }
+    public int StandardClassTicketsLeft { get; set; }
     
     public int Price { get; set; }
 

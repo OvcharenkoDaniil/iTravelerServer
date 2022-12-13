@@ -27,9 +27,14 @@ namespace Automarket.DAL.Repositories
             return _db.Flight;
         }
 
-        public Task<Flight?> Get(Flight entity)
+        public Flight Get(Flight entity)
         {
             throw new NotImplementedException();
+        }
+
+        public Flight Get(int id)
+        {
+            return _db.Flight.Find(id);
         }
 
         public async Task Delete(Flight entity)
@@ -37,11 +42,19 @@ namespace Automarket.DAL.Repositories
             _db.Flight.Remove(entity);
             await _db.SaveChangesAsync();
         }
-    
+
         public async Task<Flight> Update(Flight entity)
         {
             _db.Flight.Update(entity);
             await _db.SaveChangesAsync();
+
+            return entity;
+        }
+
+        public Flight UpdateSync(Flight entity)
+        {
+            _db.Flight.Update(entity);
+            _db.SaveChanges();
     
             return entity;
         }

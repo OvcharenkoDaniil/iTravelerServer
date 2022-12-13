@@ -18,12 +18,12 @@ namespace iTravelerServer.Service.Services
         private readonly IBaseRepository<Flight> _flightRepository;
         private readonly ApplicationDbContext _db;
 
-        public FlightService(IBaseRepository<Flight> flightRepository,ApplicationDbContext db)
+        public FlightService(IBaseRepository<Flight> flightRepository, ApplicationDbContext db)
         {
             _flightRepository = flightRepository;
             _db = db;
         }
-        
+
 
         public BaseResponse<List<FlightListVM>> GetFlightList()
         {
@@ -39,7 +39,7 @@ namespace iTravelerServer.Service.Services
             try
             {
                 //tickets in _db.Ticket join on tickets.FwFlight_id equals flights.Flight_id
-                var fwDepAirport = (from flights in _db.Flight 
+                var fwDepAirport = (from flights in _db.Flight
                     join airports in _db.Airport on flights.DepartureAirport_id equals airports.Airport_id
                     select airports).ToList();
 
@@ -47,7 +47,7 @@ namespace iTravelerServer.Service.Services
                     join airports in _db.Airport on flights.ArrivalAirport_id equals airports.Airport_id
                     select airports).ToList();
 
-                var fwValues = (from flights in _db.Flight 
+                var fwValues = (from flights in _db.Flight
                     join planes in _db.Plane on flights.Plane_id equals planes.Plane_id
                     join transfers in _db.Transfer on flights.Transfer_id equals transfers.Transfer_id
                     select new
@@ -98,6 +98,7 @@ namespace iTravelerServer.Service.Services
                 for (int i = 0; i < fwValues.Count; i++)
                 {
                     flight = new FlightListVM();
+                    flight.FwPrice = fwValues[i].Price;
                     //ticket.TotalPrice = fwValues[i].Price + bwValues[i].Price;
                     flight.Flight_id = fwValues[i].Flight_id;
                     flight.FwDepartureCity = fwDepAirport[i].City;
@@ -161,21 +162,6 @@ namespace iTravelerServer.Service.Services
             try
             {
                 var flights = await _flightRepository.GetAll().ToListAsync();
-
-                // .Select(x => new CarViewModel()
-                // {
-                //     Id = x.Id,
-                //     Speed = x.Speed,
-                //     Name = x.Name,
-                //     Description = x.Description,
-                //     Model = x.Model,
-                //     DateCreate = x.DateCreate.ToLongDateString(),
-                //     Price = x.Price,
-                //     TypeCar = x.TypeCar.GetDisplayName()
-                // })
-                // .Where(x => EF.Functions.Like(x.Name, $"%{term}%"))
-                // .ToDictionaryAsync(x => x.Id, t => t.Name);
-
                 baseResponse.Data = flights;
                 return baseResponse;
             }
@@ -184,6 +170,64 @@ namespace iTravelerServer.Service.Services
                 return new BaseResponse<IEnumerable<Flight>>()
                 {
                     Description = $"[GetFlights] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public BaseResponse<Flight> GetFlight(int flightId)
+        {
+            var baseResponse = new BaseResponse<Flight>();
+            try
+            {
+                var flight = _flightRepository.Get(flightId);
+
+                baseResponse.Data = flight;
+                return baseResponse;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Flight>()
+                {
+                    Description = $"[GetFlight] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+        
+        public BaseResponse<bool> UpdateFlight(int flightId, Flight flightData)
+        {
+            var baseResponse = new BaseResponse<bool>();
+            try
+            {
+                var dbFlight = _flightRepository.Get(flightId);
+                if (dbFlight == null)
+                {
+                    baseResponse.Description = "Car not found";
+                    baseResponse.StatusCode = StatusCode.NotFound;
+                    return baseResponse;
+                }
+                
+                dbFlight.DepartureDate = flightData.DepartureDate;
+                dbFlight.ArrivalDate = flightData.ArrivalDate;
+                dbFlight.DepartureTime = flightData.DepartureTime;
+                dbFlight.ArrivalTime = flightData.ArrivalTime;
+                dbFlight.FlightDuration = flightData.FlightDuration;
+                
+                var res = _flightRepository.UpdateSync(dbFlight);
+                
+                return new BaseResponse<bool>()
+                {
+                    
+                    Description = "Updated",
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>()
+                {
+                    Description = $"[UpdateFlight] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError
                 };
             }
