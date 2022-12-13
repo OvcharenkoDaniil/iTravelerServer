@@ -207,13 +207,16 @@ namespace iTravelerServer.Service.Services
                     baseResponse.StatusCode = StatusCode.NotFound;
                     return baseResponse;
                 }
+        
                 
                 dbFlight.DepartureDate = flightData.DepartureDate;
                 dbFlight.ArrivalDate = flightData.ArrivalDate;
                 dbFlight.DepartureTime = flightData.DepartureTime;
                 dbFlight.ArrivalTime = flightData.ArrivalTime;
                 dbFlight.FlightDuration = flightData.FlightDuration;
-                
+                dbFlight.Price = flightData.Price;
+
+                var a = dbFlight;
                 var res = _flightRepository.UpdateSync(dbFlight);
                 
                 return new BaseResponse<bool>()

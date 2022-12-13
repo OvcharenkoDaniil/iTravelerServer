@@ -71,6 +71,7 @@ public class TicketController : Controller
             ArrivalDate = ticket.FwArrivalDate,
             DepartureTime = ticket.FwDepartureTime,
             ArrivalTime = ticket.FwArrivalTime,
+            FlightDuration = ticket.FwFlightDuration,
             Price = ticket.FwPrice
         };
 
@@ -83,6 +84,7 @@ public class TicketController : Controller
             // ArrivalTime = ticket.FwArrivalTime,
             // Price = ticket.FwPrice
             Flight_id = ticket.BwFlight_id,
+            FlightDuration = ticket.BwFlightDuration,
             DepartureDate = ticket.BwDepartureDate,
             ArrivalDate = ticket.BwArrivalDate,
             DepartureTime = ticket.BwDepartureTime,
