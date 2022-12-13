@@ -33,7 +33,7 @@ public class TicketRepository : IBaseRepository<Ticket>
 
     public Ticket Get(int id)
     {
-        throw new NotImplementedException();
+        return _db.Ticket.Find(id);
     }
 
     public async Task Delete(Ticket entity)
