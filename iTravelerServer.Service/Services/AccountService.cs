@@ -68,7 +68,7 @@ namespace iTravelerServer.Service.Services
                 {
                     Email = loginData.Email
                 };
-                var user = await _accountRepository.Get(acc);
+                var user = _accountRepository.Get(acc);
                 if (user == null || user.Password == null)
                     return null;
 
@@ -101,7 +101,7 @@ namespace iTravelerServer.Service.Services
                 {
                     Email = registerData.Email
                 };
-                var user = await _accountRepository.Get(acc);
+                var user = _accountRepository.Get(acc);
                 if (user != null)
                 {
                     return new BaseResponse<Account>()
@@ -122,7 +122,7 @@ namespace iTravelerServer.Service.Services
 
 
                 acc.Email = user.Email;
-                user = await _accountRepository.Get(acc);
+                user = _accountRepository.Get(acc);
                 if (user == null)
                 {
                     return new BaseResponse<Account>()
@@ -156,17 +156,17 @@ namespace iTravelerServer.Service.Services
             {
                 var acc = new Account()
                 {
-                    Email = userData.Email
+                    Email = userData.email
                 };
-                var existedUser = await _accountRepository.Get(acc);
+                var existedUser = _accountRepository.Get(acc);
 
-                if (HashPasswordHelper.HashPassword(userData.NewPassword) == existedUser.Password)
+                if (HashPasswordHelper.HashPassword(userData.password) == existedUser.Password)
                 {
-                    existedUser.Password = HashPasswordHelper.HashPassword(userData.NewPassword);
+                    existedUser.Password = HashPasswordHelper.HashPassword(userData.newPassword);
                     await _accountRepository.Update(existedUser);
 
-                    existedUser = await _accountRepository.Get(existedUser);
-                    if (existedUser.Password == HashPasswordHelper.HashPassword(userData.NewPassword))
+                    existedUser = _accountRepository.Get(existedUser);
+                    if (existedUser.Password == HashPasswordHelper.HashPassword(userData.newPassword))
                     {
                         return new BaseResponse<Account>()
                         {

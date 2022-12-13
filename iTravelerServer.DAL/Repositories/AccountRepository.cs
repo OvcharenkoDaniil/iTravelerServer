@@ -22,9 +22,14 @@ namespace iTravelerServer.DAL.Repositories
             return _db.Account;
         }
         
-        public async Task<Account?> Get(Account entity)
+        public Account Get(Account entity)
         {
-            return await _db.Account.FirstOrDefaultAsync(x => x.Email == entity.Email);
+            return _db.Account.FirstOrDefault(x => x.Email == entity.Email);
+        }
+
+        public Account Get(int id)
+        {
+            return _db.Account.FirstOrDefault(x => x.Account_id == id);
         }
 
         public async Task Delete(Account entity)
@@ -43,6 +48,14 @@ namespace iTravelerServer.DAL.Repositories
         {
             _db.Account.Update(entity);
             await _db.SaveChangesAsync();
+
+            return entity;
+        }
+
+        public Account UpdateSync(Account entity)
+        {
+            _db.Account.Update(entity);
+            _db.SaveChangesAsync();
 
             return entity;
         }
