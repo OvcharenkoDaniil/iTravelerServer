@@ -10,9 +10,13 @@ namespace iTravelerServer.Domain.ViewModels.FlightVM
         public int FwFlight_id { get; set; }
         public int BwFlight_id { get; set; }
         
+        public int order_id { get; set; }
+        
         public int NumberOfPassengers { get; set; }
         
         public int TotalPrice { get; set; }
+        public int FwPrice { get; set; }
+        public int BwPrice { get; set; }
         
         public string FwAircompany_name { get; set; }
         public int FwStandardClassCapacity { get; set; }

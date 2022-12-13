@@ -21,78 +21,31 @@ public class TicketController : Controller
     private readonly IPlaneService _planeService;
     private readonly ITicketService _ticketService;
     private readonly ITransferService _transferService;
-    private readonly ITicketListService _ticketListService;
 
 
     private readonly ApplicationDbContext _db;
 
-    //private Guid Id => Guid.Parse(User.Claims.Single(i => i.Type == ClaimTypes.NameIdentifier).Value);
     public TicketController(
         ITicketService ticketService,
-        ITicketListService ticketListService,
+        ITransferService transferService,
         ApplicationDbContext db, IFlightService flightService)
     {
         _db = db;
         _flightService = flightService;
+        _transferService = transferService;
 
         _ticketService = ticketService;
-
-        _ticketListService = ticketListService;
     }
 
-
-    //[Authorize (Roles = "User")]
-    //[Authorize]
-    // [HttpGet]
-    // [Route("get-flights")]
-    // public async Task<BaseResponse<IEnumerable<TicketListVM>>> GetTikets()
-    // {
-    //     var response = await _flightService.GetFlights();
-    //    
-    //     // if (response.StatusCode == Domain.Enum.StatusCode.OK)
-    //     // {
-    //         return response;
-    //     // }
-    //
-    //     //return Redirect("Error");
-    // }
-
-
-    //[Authorize(Roles = "Admin")]
-    [HttpGet]
-    [Route("GetTikets")] //TicketSearchRequest filter
-    public List<FlightListVM> GetTikets()
-    {
-        var response = _flightService.GetFlightList();
-        if (response.StatusCode == Domain.Enum.StatusCode.OK)
-        {
-            return response.Data;
-        }
-
-        return null;
-    }
-
+    
+    
     [Authorize]
-    [HttpGet]
-    [Route("GetTiketss")] //TicketSearchRequest filter
-    public List<TicketListVM> GetTiketss()
-    {
-        var response = _ticketListService.GetFlightList();
-        if (response.StatusCode == Domain.Enum.StatusCode.OK)
-        {
-            return response.Data;
-        }
-
-        return null;
-    }
-
-    //[Authorize]
-    //[Route("GetFilteredTickets")] //TicketSearchRequest filter
     [HttpPost("GetFilteredTickets")]
     public List<TicketListVM> GetFilteredTickets(TicketSearchRequest filter)
     {
-        var response = _flightService.GetFlightList();
+        //TicketSearchRequest filter = new TicketSearchRequest();
 
+        var response = _flightService.GetFlightList();
         if (response.StatusCode == Domain.Enum.StatusCode.OK)
         {
             var listOfSortedTickets = _ticketService.GetTicketList(response.Data, filter);
@@ -102,6 +55,83 @@ public class TicketController : Controller
                 return listOfSortedTickets.Data;
             }
         }
+
         return null;
+    }
+
+
+    [HttpPost("UpdateTiket")]
+    [Authorize(Roles = "Admin")]
+    public bool UpdateTiket(TicketListVM ticket)
+    {
+        var fwFlight = new Flight()
+        {
+            Flight_id = ticket.FwFlight_id,
+            DepartureDate = ticket.FwDepartureDate,
+            ArrivalDate = ticket.FwArrivalDate,
+            DepartureTime = ticket.FwDepartureTime,
+            ArrivalTime = ticket.FwArrivalTime,
+            Price = ticket.FwPrice
+        };
+
+        var bwFlight = new Flight()
+        {
+            // Flight_id = ticket.FwFlight_id,
+            // DepartureDate = ticket.FwDepartureDate,
+            // ArrivalDate = ticket.FwArrivalDate,
+            // DepartureTime = ticket.FwDepartureTime,
+            // ArrivalTime = ticket.FwArrivalTime,
+            // Price = ticket.FwPrice
+            Flight_id = ticket.BwFlight_id,
+            DepartureDate = ticket.BwDepartureDate,
+            ArrivalDate = ticket.BwArrivalDate,
+            DepartureTime = ticket.BwDepartureTime,
+            ArrivalTime = ticket.BwArrivalTime,
+            Price = ticket.BwPrice
+        };
+        var fwFlightObj = _flightService.GetFlight(ticket.FwFlight_id);
+        var bwFlightObj = _flightService.GetFlight(ticket.BwFlight_id);
+        var fwTransfer = _transferService.GetTransfer(fwFlightObj.Data.Transfer_id);
+        var bwTransfer = _transferService.GetTransfer(bwFlightObj.Data.Transfer_id);
+        var fwFlightResponse = _flightService.UpdateFlight(ticket.FwFlight_id, fwFlight);
+        var bwFlightResponse = _flightService.UpdateFlight(ticket.BwFlight_id, bwFlight);
+        var fwTransferResponse = _transferService.UpdateTransfer(fwTransfer.Data.Transfer_id,fwTransfer.Data);
+        var bwTransferResponse = _transferService.UpdateTransfer(bwTransfer.Data.Transfer_id,bwTransfer.Data);
+        
+        if (fwFlightResponse.StatusCode == Domain.Enum.StatusCode.OK &&
+            bwFlightResponse.StatusCode == Domain.Enum.StatusCode.OK &&
+            fwTransferResponse.StatusCode == Domain.Enum.StatusCode.OK &&
+            bwTransferResponse.StatusCode == Domain.Enum.StatusCode.OK 
+            )
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
+    
+    [HttpPost("AddTiket")]
+    [Authorize]
+    public int AddTiket(TicketListVM ticketVM)
+    {
+        var ticket = new Ticket()
+        {
+            Price = ticketVM.TotalPrice,
+            FwFlight_id = ticketVM.FwFlight_id,
+            BwFlight_id = ticketVM.BwFlight_id
+        };
+
+        var response = _ticketService.AddTicket(ticket);
+        
+        
+        if (
+            response.StatusCode == Domain.Enum.StatusCode.OK 
+            )
+        {
+            return response.Data.Ticket_id;
+        }
+
+        return 0;
     }
 }

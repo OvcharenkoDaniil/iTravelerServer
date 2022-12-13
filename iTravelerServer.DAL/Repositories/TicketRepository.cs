@@ -14,8 +14,8 @@ public class TicketRepository : IBaseRepository<Ticket>
     
     public async Task Create(Ticket entity)
     {
-        await _db.Ticket.AddAsync(entity);
-        await _db.SaveChangesAsync();
+         _db.Ticket.Add(entity);
+         _db.SaveChanges();
     }
     
     public IQueryable<Ticket> GetAll()
@@ -23,7 +23,15 @@ public class TicketRepository : IBaseRepository<Ticket>
         return _db.Ticket;
     }
 
-    public Task<Ticket?> Get(Ticket entity)
+    public Ticket Get(Ticket entity)
+    {
+        return _db.Ticket.FirstOrDefault(x => 
+            x.Price == entity.Price && 
+            x.BwFlight_id == entity.BwFlight_id && 
+            x.FwFlight_id == entity.FwFlight_id);
+    }
+
+    public Ticket Get(int id)
     {
         throw new NotImplementedException();
     }
@@ -39,6 +47,14 @@ public class TicketRepository : IBaseRepository<Ticket>
         _db.Ticket.Update(entity);
         await _db.SaveChangesAsync();
     
+        return entity;
+    }
+
+    public Ticket UpdateSync(Ticket entity)
+    {
+        _db.Ticket.Update(entity);
+        _db.SaveChangesAsync();
+
         return entity;
     }
 }

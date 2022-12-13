@@ -37,26 +37,30 @@ public class TicketService : ITicketService
         }
     }
 
-    public async Task<BaseResponse<Ticket>> BookTheTicket(Ticket ticket)
+    public BaseResponse<Ticket> AddTicket(Ticket ticket)
     {
         var baseResponse = new BaseResponse<Ticket>();
         try
         {
-            var newticket = new Ticket()
-            {
-                Price = ticket.Price,
-                FwFlight_id = ticket.FwFlight_id,
-                BwFlight_id = ticket.BwFlight_id
-            };
-            await _ticketRepository.Create(newticket);
-
-            var result = await _ticketRepository.Get(newticket);
             
+            _ticketRepository.Create(ticket);
+
+            var result = _ticketRepository.Get(ticket);
+            if (result!=null)
+            {
+                return new BaseResponse<Ticket>()
+                {
+                    Description = "Ticket created",
+                    Data = result,
+                    StatusCode = StatusCode.OK
+                };
+            }
+
             return new BaseResponse<Ticket>()
             {
-                Description = "Ticket created",
-                Data = result,
-                StatusCode = StatusCode.OK
+                Description = "Ticket was not created",
+                
+                StatusCode = StatusCode.InternalServerError
             };
         }
         catch (Exception ex)
@@ -69,15 +73,18 @@ public class TicketService : ITicketService
         }
     }
 
+
     public BaseResponse<List<TicketListVM>> GetTicketList(List<FlightListVM> flightList, TicketSearchRequest filter)
     {
         var fwTicketList = new List<FlightListVM>();
         var bwTicketList = new List<FlightListVM>();
         var ticketList = new List<TicketListVM>();
-        var ticket = new TicketListVM();
+
 
         try
         {
+            filter.DepartureDate = filter.DepartureDate.AddDays(1);
+            filter.ReturnDate = filter.ReturnDate.AddDays(1);
             foreach (var item in flightList)
             {
                 if (
@@ -87,7 +94,7 @@ public class TicketService : ITicketService
                     //item.BwDepartureDate==filter.ReturnDate
                 )
                 {
-                    if (filter.FlightClass == "FirstClass" && 
+                    if (filter.FlightClass == "FirstClass" &&
                         item.FwFirstClassCapacity >= filter.NumberOfPassangers)
                     {
                         fwTicketList.Add(item);
@@ -107,7 +114,7 @@ public class TicketService : ITicketService
                     //item.BwDepartureDate==filter.ReturnDate
                 )
                 {
-                    if (filter.FlightClass == "FirstClass" && 
+                    if (filter.FlightClass == "FirstClass" &&
                         item.FwFirstClassCapacity >= filter.NumberOfPassangers)
                     {
                         bwTicketList.Add(item);
@@ -123,54 +130,13 @@ public class TicketService : ITicketService
 
             if (fwTicketList.Count != 0 && bwTicketList.Count != 0)
             {
-                int i = 1;
+                int i = 0;
+                //int i = 1;
                 foreach (var fwTicket in fwTicketList)
                 {
                     foreach (var bwTicket in bwTicketList)
                     {
-                        ticket.TicketElem_id = i;
-                        ticket.FwFlight_id = fwTicket.Flight_id;
-                        ticket.BwFlight_id = bwTicket.Flight_id;
-                        ticket.NumberOfPassengers = filter.NumberOfPassangers;
-                        ticket.TotalPrice = fwTicket.FwPrice + bwTicket.FwPrice;
-
-                        ticket.FwDepartureCity = fwTicket.FwDepartureCity;
-                        ticket.FwDepartureAirportName = fwTicket.FwDepartureAirportName;
-                        ticket.FwDepartureAirportCountry = fwTicket.FwDepartureAirportCountry;
-                        ticket.FwArrivalCity = fwTicket.FwArrivalCity;
-                        ticket.FwArrivalAirportName = fwTicket.FwArrivalAirportName;
-                        ticket.FwArrivalAirportCountry = fwTicket.FwArrivalAirportCountry;
-
-                        ticket.FwAircompany_name = fwTicket.FwAircompany_name;
-                        ticket.FwStandardClassCapacity = fwTicket.FwStandardClassCapacity;
-                        ticket.FwFirstClassCapacity = fwTicket.FwFirstClassCapacity;
-
-                        ticket.FwDepartureDate = fwTicket.FwDepartureDate;
-                        ticket.FwDepartureTime = fwTicket.FwDepartureTime;
-                        ticket.FwArrivalDate = fwTicket.FwArrivalDate;
-                        ticket.FwArrivalTime = fwTicket.FwArrivalTime;
-                        ticket.FwFlightDuration = fwTicket.FwFlightDuration;
-                        ticket.FwNumberOfTransfers = fwTicket.FwNumberOfTransfers;
-
-                        ticket.BwDepartureCity = bwTicket.FwDepartureCity;
-                        ticket.BwDepartureAirportName = bwTicket.FwDepartureAirportName;
-                        ticket.BwDepartureAirportCountry = bwTicket.FwDepartureAirportCountry;
-                        ticket.BwArrivalCity = bwTicket.FwArrivalCity;
-                        ticket.BwArrivalAirportName = bwTicket.FwArrivalAirportName;
-                        ticket.BwArrivalAirportCountry = bwTicket.FwArrivalAirportCountry;
-
-                        ticket.BwAircompany_name = bwTicket.FwAircompany_name;
-                        ticket.BwFirstClassCapacity = bwTicket.FwFirstClassCapacity;
-                        ticket.BwStandardClassCapacity = bwTicket.FwStandardClassCapacity;
-
-                        ticket.BwDepartureDate = bwTicket.FwDepartureDate;
-                        ticket.BwDepartureTime = bwTicket.FwDepartureTime;
-                        ticket.BwArrivalDate = bwTicket.FwArrivalDate;
-                        ticket.BwArrivalTime = bwTicket.FwArrivalTime;
-                        ticket.BwFlightDuration = bwTicket.FwFlightDuration;
-                        ticket.BwNumberOfTransfers = bwTicket.FwNumberOfTransfers;
-
-                        ticketList.Add(ticket);
+                        ticketList.Add(createTicket(fwTicket,bwTicket,filter.NumberOfPassangers,i));
                         i++;
                     }
                 }
@@ -187,7 +153,6 @@ public class TicketService : ITicketService
                 Description = "there is not such tickets",
                 StatusCode = StatusCode.NotFound
             };
-
         }
         catch (Exception ex)
         {
@@ -197,5 +162,71 @@ public class TicketService : ITicketService
                 StatusCode = StatusCode.InternalServerError
             };
         }
+    }
+
+    public TicketListVM createTicket(
+    FlightListVM fwTicket,
+    FlightListVM bwTicket,
+    int NumberOfPassangers,
+    int i
+    )
+    {
+        // int i = 1;
+        // foreach (var fwTicket in fwTicketList)
+        // {
+        //     foreach (var bwTicket in bwTicketList)
+        //     {
+                var ticket = new TicketListVM();
+                ticket.TicketElem_id = i;
+                ticket.FwFlight_id = fwTicket.Flight_id;
+                ticket.BwFlight_id = bwTicket.Flight_id;
+                ticket.NumberOfPassengers = NumberOfPassangers;
+
+                ticket.TotalPrice = fwTicket.FwPrice + bwTicket.FwPrice;
+                ticket.FwPrice = fwTicket.FwPrice;
+                ticket.BwPrice = bwTicket.FwPrice;
+
+                ticket.FwDepartureCity = fwTicket.FwDepartureCity;
+                ticket.FwDepartureAirportName = fwTicket.FwDepartureAirportName;
+                ticket.FwDepartureAirportCountry = fwTicket.FwDepartureAirportCountry;
+                ticket.FwArrivalCity = fwTicket.FwArrivalCity;
+                ticket.FwArrivalAirportName = fwTicket.FwArrivalAirportName;
+                ticket.FwArrivalAirportCountry = fwTicket.FwArrivalAirportCountry;
+
+                ticket.FwAircompany_name = fwTicket.FwAircompany_name;
+                ticket.FwStandardClassCapacity = fwTicket.FwStandardClassCapacity;
+                ticket.FwFirstClassCapacity = fwTicket.FwFirstClassCapacity;
+
+                ticket.FwDepartureDate = fwTicket.FwDepartureDate;
+                ticket.FwDepartureTime = fwTicket.FwDepartureTime;
+                ticket.FwArrivalDate = fwTicket.FwArrivalDate;
+                ticket.FwArrivalTime = fwTicket.FwArrivalTime;
+                ticket.FwFlightDuration = fwTicket.FwFlightDuration;
+                ticket.FwNumberOfTransfers = fwTicket.FwNumberOfTransfers;
+
+                ticket.BwDepartureCity = bwTicket.FwDepartureCity;
+                ticket.BwDepartureAirportName = bwTicket.FwDepartureAirportName;
+                ticket.BwDepartureAirportCountry = bwTicket.FwDepartureAirportCountry;
+                ticket.BwArrivalCity = bwTicket.FwArrivalCity;
+                ticket.BwArrivalAirportName = bwTicket.FwArrivalAirportName;
+                ticket.BwArrivalAirportCountry = bwTicket.FwArrivalAirportCountry;
+
+                ticket.BwAircompany_name = bwTicket.FwAircompany_name;
+                ticket.BwFirstClassCapacity = bwTicket.FwFirstClassCapacity;
+                ticket.BwStandardClassCapacity = bwTicket.FwStandardClassCapacity;
+
+                ticket.BwDepartureDate = bwTicket.FwDepartureDate;
+                ticket.BwDepartureTime = bwTicket.FwDepartureTime;
+                ticket.BwArrivalDate = bwTicket.FwArrivalDate;
+                ticket.BwArrivalTime = bwTicket.FwArrivalTime;
+                ticket.BwFlightDuration = bwTicket.FwFlightDuration;
+                ticket.BwNumberOfTransfers = bwTicket.FwNumberOfTransfers;
+
+                //ticketList.Add(ticket);
+            //     i++;
+            // }
+        //}
+
+        return ticket;
     }
 }
