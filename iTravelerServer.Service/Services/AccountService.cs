@@ -40,11 +40,22 @@ namespace iTravelerServer.Service.Services
             var baseResponse = new BaseResponse<IEnumerable<Account>>();
             try
             {
-                var flights = await _accountRepository.GetAll().ToListAsync();
+                var accounts = await _accountRepository.GetAll().ToListAsync();
 
+                if (accounts != null)
+                {
+                    return new BaseResponse<IEnumerable<Account>>()
+                    {
+                        Data = accounts,
+                        StatusCode = StatusCode.OK
+                    };
+                }
 
-                baseResponse.Data = flights;
-                return baseResponse;
+                return new BaseResponse<IEnumerable<Account>>()
+                {
+                    Description = "There aren't users",
+                    StatusCode = StatusCode.NotFound
+                };
             }
             catch (Exception ex)
             {
@@ -90,7 +101,6 @@ namespace iTravelerServer.Service.Services
                 };
             }
         }
-
 
         public async Task<BaseResponse<Account>> Register(RegisterVM registerData)
         {
@@ -149,6 +159,51 @@ namespace iTravelerServer.Service.Services
             }
         }
 
+        // public async Task<BaseResponse<Account>> UpdateAccount(Account accountData)
+        // {
+        //     var baseResponse = new BaseResponse<Account>();
+        //     try
+        //     {
+        //         var acc = new Account()
+        //         {
+        //             Email = accountData.Email
+        //         };
+        //         var existedUser = _accountRepository.Get(acc);
+        //
+        //         if (existedUser!=null)
+        //         {
+        //             existedUser.Username = accountData.Username;
+        //             await _accountRepository.Update(existedUser);
+        //
+        //             existedUser = _accountRepository.Get(existedUser);
+        //             if (existedUser.Password == HashPasswordHelper.HashPassword(userData.newPassword))
+        //             {
+        //                 return new BaseResponse<Account>()
+        //                 {
+        //                     Description = "Password changed",
+        //                     StatusCode = StatusCode.OK
+        //                 };
+        //             }
+        //         }
+        //
+        //         return new BaseResponse<Account>()
+        //         {
+        //             //Data = user,
+        //             Description = "Passwords not match",
+        //             StatusCode = StatusCode.NotFound
+        //         };
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return new BaseResponse<Account>()
+        //         {
+        //             Description = $"[Register] : {ex.Message}",
+        //             StatusCode = StatusCode.InternalServerError
+        //         };
+        //     }
+        // }
+
+        
         public async Task<BaseResponse<Account>> ChangePassword(ChangePasswordVM userData)
         {
             var baseResponse = new BaseResponse<Account>();
@@ -175,6 +230,7 @@ namespace iTravelerServer.Service.Services
                         };
                     }
                 }
+
                 return new BaseResponse<Account>()
                 {
                     //Data = user,
@@ -187,6 +243,46 @@ namespace iTravelerServer.Service.Services
                 return new BaseResponse<Account>()
                 {
                     Description = $"[Register] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public async Task<BaseResponse<Boolean>> DeleteAccount(AccountDeleteDataVM userData)
+        {
+            try
+            {
+                var acc = new Account()
+                {
+                    Email = userData.email
+                };
+                var existedUser = _accountRepository.Get(acc);
+                
+                await _accountRepository.Delete(existedUser);
+
+                existedUser = _accountRepository.Get(existedUser);
+                if (existedUser==null)
+                {
+                    return new BaseResponse<Boolean>()
+                    {
+                        Description = "Account deleted",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+
+
+                return new BaseResponse<Boolean>()
+                {
+                    //Data = user,
+                    Description = "Account was not deleted",
+                    StatusCode = StatusCode.NotFound
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Boolean>()
+                {
+                    Description = $"[DeleteAccount] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError
                 };
             }

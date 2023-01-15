@@ -19,23 +19,24 @@ namespace iTravelerServer.Service.Services
         private readonly IBaseRepository<Order> _orderRepository;
         private readonly IBaseRepository<Account> _accountRepository;
 
-        private readonly IBaseRepository<Plane> _planeRepository;
+        private readonly IBaseRepository<Ticket> _ticketRepository;
+        private readonly IBaseRepository<TicketDetail> _ticketDetailRepository;
 
-        //private readonly ITicketService _ticketService;
         private readonly IBaseRepository<Flight> _flightRepository;
         private readonly ApplicationDbContext _db;
 
         public OrderService(IBaseRepository<Order> orderRepository, IBaseRepository<Account> accountRepository,
-            IBaseRepository<Ticket> ticketRepository, ApplicationDbContext db, IBaseRepository<Plane> planeRepository,
-            IBaseRepository<Flight> flightRepository
+            IBaseRepository<Ticket> ticketRepository, ApplicationDbContext db,
+            IBaseRepository<Flight> flightRepository, IBaseRepository<TicketDetail> ticketDetailRepository
             //,ITicketService ticketService
         )
         {
             _orderRepository = orderRepository;
             _accountRepository = accountRepository;
             _db = db;
-            _planeRepository = planeRepository;
+            _ticketRepository = ticketRepository;
             _flightRepository = flightRepository;
+            _ticketDetailRepository = ticketDetailRepository;
             //_ticketService = ticketService;
         }
 
@@ -74,54 +75,71 @@ namespace iTravelerServer.Service.Services
                 if (account == null || account.Password == null)
                     return null;
 
-                var order = new Order()
+                var fwFlightData = (from ticket in _db.Ticket
+                        join flight in _db.Flight on ticket.FwFlight_id equals flight.Flight_id
+                        select new
+                        {
+                            ticket.Ticket_id,
+                            flight.DepartureDate
+                        }
+                    ).Where(t => t.Ticket_id == orderVm.ticket_id).FirstOrDefault();
+
+                if (fwFlightData.DepartureDate.Date > DateTime.Today.AddDays(1).Date)
                 {
-                    FlightClass = orderVm.FlightClass,
-                    Ticket_id = orderVm.ticket_id,
-                    User_id = account.Account_id,
-                    NumberOfTickets = orderVm.numberOfTickets,
-                    CreationDate = DateTime.Now,
-                    ExpirationDate = DateTime.Now.AddDays(7)
-                };
+                    var a = DateTime.Today.AddDays(1).Date;
+                    var b = fwFlightData.DepartureDate.Date;
+                    var expirationDate = new DateTime();
 
+                    if (DateTime.Today.AddDays(8).Date <= fwFlightData.DepartureDate.Date)
+                        expirationDate = DateTime.Today.AddDays(7).Date;
+                    else expirationDate = fwFlightData.DepartureDate.AddDays(-1).Date;
 
-                // var fwPlane = (from ticket in _db.Ticket
-                //     join flight in _db.Flight on ticket.FwFlight_id equals flight.Flight_id
-                //     join plane in _db.Plane on flight.Plane_id equals plane.Plane_id
-                //     select plane).FirstOrDefault<Plane>();
-                // var bwPlane = (from ticket in _db.Ticket
-                //     join flight in _db.Flight on ticket.BwFlight_id equals flight.Flight_id
-                //     join plane in _db.Plane on flight.Plane_id equals plane.Plane_id
-                //     select plane).FirstOrDefault<Plane>();
-                var bwFlight = (from ticket in _db.Ticket
-                    join flight in _db.Flight on ticket.BwFlight_id equals flight.Flight_id
-                    select flight).FirstOrDefault<Flight>();
-                var fwFlight = (from ticket in _db.Ticket
-                    join flight in _db.Flight on ticket.FwFlight_id equals flight.Flight_id
-                    select flight).FirstOrDefault<Flight>();
+                    var order = new Order()
+                    {
+                        FlightClass = orderVm.FlightClass,
+                        Ticket_id = orderVm.ticket_id,
+                        User_id = account.Account_id,
+                        NumberOfTickets = orderVm.numberOfTickets,
+                        CreationDate = DateTime.Today,
+                        ExpirationDate = expirationDate
+                    };
 
-                if (order.FlightClass == "FirstClass")
-                {
-                    fwFlight.FirstClassTicketsLeft -= order.NumberOfTickets;
-                    bwFlight.FirstClassTicketsLeft -= order.NumberOfTickets;
-                    _flightRepository.UpdateSync(fwFlight);
-                    _flightRepository.UpdateSync(bwFlight);
+                    var bwFlight = (from ticket in _db.Ticket
+                        join flight in _db.Flight on ticket.BwFlight_id equals flight.Flight_id
+                        select flight).FirstOrDefault<Flight>();
+                    var fwFlight = (from ticket in _db.Ticket
+                        join flight in _db.Flight on ticket.FwFlight_id equals flight.Flight_id
+                        select flight).FirstOrDefault<Flight>();
+
+                    if (order.FlightClass == "FirstClass")
+                    {
+                        fwFlight.FirstClassTicketsLeft -= order.NumberOfTickets;
+                        bwFlight.FirstClassTicketsLeft -= order.NumberOfTickets;
+                        _flightRepository.UpdateSync(fwFlight);
+                        _flightRepository.UpdateSync(bwFlight);
+                    }
+
+                    if (order.FlightClass == "StandardClass")
+                    {
+                        fwFlight.StandardClassTicketsLeft -= order.NumberOfTickets;
+                        bwFlight.StandardClassTicketsLeft -= order.NumberOfTickets;
+                        _flightRepository.UpdateSync(fwFlight);
+                        _flightRepository.UpdateSync(bwFlight);
+                    }
+
+                    await _orderRepository.Create(order);
+
+                    return new BaseResponse<Order>()
+                    {
+                        Description = "Order created",
+                        StatusCode = StatusCode.OK
+                    };
                 }
-
-                if (order.FlightClass == "StandardClass")
-                {
-                    fwFlight.FirstClassTicketsLeft -= order.NumberOfTickets;
-                    bwFlight.FirstClassTicketsLeft -= order.NumberOfTickets;
-                    _flightRepository.UpdateSync(fwFlight);
-                    _flightRepository.UpdateSync(bwFlight);
-                }
-
-                await _orderRepository.Create(order);
 
                 return new BaseResponse<Order>()
                 {
-                    Description = "Order created",
-                    StatusCode = StatusCode.OK
+                    Description = "invalid date",
+                    StatusCode = StatusCode.InvalidDate
                 };
             }
             catch (Exception ex)
@@ -133,14 +151,46 @@ namespace iTravelerServer.Service.Services
                 };
             }
         }
-        
+
         public async Task<BaseResponse<Order>> DeleteOrder(int orderId)
         {
             var baseResponse = new BaseResponse<Order>();
             try
             {
-                
                 var existedOrder = _orderRepository.Get(orderId);
+                //var existedTicket = _orderRepository.Get(existedOrder.Ticket_id);
+                var existedTicket = _ticketRepository.Get(existedOrder.Ticket_id);
+                var existedTicketFwDetail = _ticketDetailRepository.Get(existedTicket.FwTicketDetail_id);
+                var existedTicketBwDetail = _ticketDetailRepository.Get(existedTicket.BwTicketDetail_id);
+
+                var bwFlight = (from order in _db.Order
+                    join ticket in _db.Ticket on order.Ticket_id equals ticket.Ticket_id
+                    join flight in _db.Flight on ticket.BwFlight_id equals flight.Flight_id
+                    select flight).FirstOrDefault<Flight>();
+                var fwFlight = (from order in _db.Order
+                    join ticket in _db.Ticket on order.Ticket_id equals ticket.Ticket_id
+                    join flight in _db.Flight on ticket.FwFlight_id equals flight.Flight_id
+                    select flight).FirstOrDefault<Flight>();
+
+                if (existedOrder.FlightClass == "FirstClass")
+                {
+                    fwFlight.FirstClassTicketsLeft += existedOrder.NumberOfTickets;
+                    bwFlight.FirstClassTicketsLeft += existedOrder.NumberOfTickets;
+                    _flightRepository.UpdateSync(fwFlight);
+                    _flightRepository.UpdateSync(bwFlight);
+                }
+
+                if (existedOrder.FlightClass == "StandardClass")
+                {
+                    fwFlight.StandardClassTicketsLeft += existedOrder.NumberOfTickets;
+                    bwFlight.StandardClassTicketsLeft += existedOrder.NumberOfTickets;
+                    _flightRepository.UpdateSync(fwFlight);
+                    _flightRepository.UpdateSync(bwFlight);
+                }
+
+                _ticketDetailRepository.Delete(existedTicketFwDetail);
+                _ticketDetailRepository.Delete(existedTicketBwDetail);
+                _ticketRepository.Delete(existedTicket);
                 _orderRepository.Delete(existedOrder);
                 existedOrder = _orderRepository.Get(orderId);
                 if (existedOrder == null)
@@ -151,6 +201,7 @@ namespace iTravelerServer.Service.Services
                         StatusCode = StatusCode.OK
                     };
                 }
+
                 return new BaseResponse<Order>()
                 {
                     Description = "Order was not deleted",
@@ -167,24 +218,72 @@ namespace iTravelerServer.Service.Services
             }
         }
 
+        public BaseResponse<List<TicketListVM>> ChangePrices(BaseResponse<List<TicketListVM>> listOfOrders,
+            string email)
+        {
+            try
+            {
+                var acc = new Account()
+                {
+                    Email = email
+                };
+                var account = _accountRepository.Get(acc);
+                if (account == null || account.Password == null)
+                    return null;
+
+                var listOfPrices = (from order in _db.Order
+                    join ticket in _db.Ticket on order.Ticket_id equals ticket.Ticket_id
+                    join flight in _db.Flight on ticket.FwFlight_id equals flight.Flight_id
+                    select new
+                    {
+                        order.User_id,
+                        ticket.Price
+                    }).Where(f => f.User_id == account.Account_id).ToList();
+
+                List<TicketListVM> listOfTickets = listOfOrders.Data;
+
+                if (listOfTickets != null && listOfPrices != null)
+                {
+                    for (int i = 0; i < listOfTickets.Count; i++)
+                    {
+                        listOfTickets[i].TotalPrice = listOfPrices[i].Price;
+                    }
+                }
+
+                return new BaseResponse<List<TicketListVM>>()
+                {
+                    Data = listOfTickets,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<List<TicketListVM>>()
+                {
+                    Description = $"[ChangePrices] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
         public BaseResponse<List<TicketListVM>> GetOrdersList(List<FlightListVM> flightList, string email,
             ITicketService _ticketService)
         {
-            var acc = new Account()
-            {
-                Email = email
-            };
-            var account = _accountRepository.Get(acc);
-            if (account == null || account.Password == null)
-                return null;
-
-            var fwTicketList = new List<FlightListVM>();
-            var numberOfTickets = new List<int>();
-            var orderIdList = new List<int>();
-            var bwTicketList = new List<FlightListVM>();
-            var ticketList = new List<TicketListVM>();
             try
             {
+                var acc = new Account()
+                {
+                    Email = email
+                };
+                var account = _accountRepository.Get(acc);
+                if (account == null || account.Password == null)
+                    return null;
+
+                var fwTicketList = new List<FlightListVM>();
+                var numberOfTickets = new List<int>();
+                var orderIdList = new List<int>();
+                var bwTicketList = new List<FlightListVM>();
+                var ticketList = new List<TicketListVM>();
                 var userFwFlight = (from orders in _db.Order
                     join tickets in _db.Ticket on orders.Ticket_id equals tickets.Ticket_id
                     join flights in _db.Flight on tickets.FwFlight_id equals flights.Flight_id
@@ -234,14 +333,15 @@ namespace iTravelerServer.Service.Services
                         var item = _ticketService.createTicket(fwTicketList[i], bwTicketList[i], numberOfTickets[i], i);
                         item.order_id = orderIdList[i];
                         ticketList.Add(item);
-                        
                     }
+
                     return new BaseResponse<List<TicketListVM>>()
                     {
                         Data = ticketList,
                         StatusCode = StatusCode.OK
                     };
                 }
+
                 return new BaseResponse<List<TicketListVM>>()
                 {
                     Description = "there is not such tickets",

@@ -16,14 +16,12 @@ namespace iTravelerServer.Domain.Helpers
                 return hash;
             }
         }
-
         public static bool MatchPasswordHash(string existedPassword, string achievedPassword)
         {
             if (existedPassword == HashPassword(achievedPassword))
             {
                 return true;
             }
-
             return false;
         }
     }

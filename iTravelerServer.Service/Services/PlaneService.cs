@@ -26,23 +26,12 @@ namespace iTravelerServer.Service.Services
             try
             {
                 var planes = await _planeRepository.GetAll().ToListAsync();
-                
-                    // .Select(x => new CarViewModel()
-                    // {
-                    //     Id = x.Id,
-                    //     Speed = x.Speed,
-                    //     Name = x.Name,
-                    //     Description = x.Description,
-                    //     Model = x.Model,
-                    //     DateCreate = x.DateCreate.ToLongDateString(),
-                    //     Price = x.Price,
-                    //     TypeCar = x.TypeCar.GetDisplayName()
-                    // })
-                    // .Where(x => EF.Functions.Like(x.Name, $"%{term}%"))
-                    // .ToDictionaryAsync(x => x.Id, t => t.Name);
 
-                baseResponse.Data = planes;
-                return baseResponse;
+                return new BaseResponse<IEnumerable<Plane>>()
+                {
+                    Data = planes,
+                    StatusCode = StatusCode.OK
+                };
             }
             catch (Exception ex)
             {

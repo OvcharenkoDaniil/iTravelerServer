@@ -28,9 +28,12 @@ namespace iTravelerServer.Service.Services
                 var airports = await _airportRepository.GetAll().ToListAsync();
                 
                 
-
-                baseResponse.Data = airports;
-                return baseResponse;
+                return new BaseResponse<IEnumerable<Airport>>()
+                {
+                    Data = airports,
+                    StatusCode = StatusCode.OK
+                };
+                
             }
             catch (Exception ex)
             {

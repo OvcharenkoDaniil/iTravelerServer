@@ -2,7 +2,9 @@
 using iTravelerServer.DAL;
 using iTravelerServer.Domain.Entities;
 using iTravelerServer.Domain.Response;
+using iTravelerServer.Domain.ViewModels.AccountVM;
 using iTravelerServer.Domain.ViewModels.FlightVM;
+using iTravelerServer.Domain.ViewModels.TicketVM;
 using iTravelerServer.Service.Interfaces;
 using iTravelerServer.Service.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +41,7 @@ public class TicketController : Controller
 
     
     
-    [Authorize]
+    //[Authorize]
     [HttpPost("GetFilteredTickets")]
     public List<TicketListVM> GetFilteredTickets(TicketSearchRequest filter)
     {
@@ -112,19 +114,57 @@ public class TicketController : Controller
         return false;
     }
     
+    [HttpPost("fwFreeTickets")]
+    public FreePlaces fwFreeTickets(TicketListVM ticketListVm)
+    {
+        //TicketSearchRequest filter = new TicketSearchRequest();
+        string result = "";
+        FreePlaces dataVm = new FreePlaces();
+        var response = _ticketService.GetFreeFwPlaces(ticketListVm.FwFlight_id,ticketListVm.FlightClass);
+        foreach (var item in response)
+        {
+            result += item.ToString() + ",";
+        }
+
+        dataVm.places = result;
+        return dataVm;
+    }
+    
+    [HttpPost("bwFreeTickets")]
+    public FreePlaces bwFreeTickets(TicketListVM ticketListVm)
+    {
+        FreePlaces dataVm = new FreePlaces();
+
+        //TicketSearchRequest filter = new TicketSearchRequest();
+        string result = "";
+        var response = _ticketService.GetFreeBwPlaces(ticketListVm.BwFlight_id,ticketListVm.FlightClass);
+        foreach (var item in response)
+        {
+            result += item.ToString() + ",";
+        }
+        dataVm.places = result;
+        return dataVm;
+    }
     
     [HttpPost("AddTiket")]
     [Authorize]
-    public int AddTiket(TicketListVM ticketVM)
+    public int AddTiket(TicketListVM ticketListVM)
     {
-        var ticket = new Ticket()
+        var ticketVM = new TicketVM()
         {
-            Price = ticketVM.TotalPrice,
-            FwFlight_id = ticketVM.FwFlight_id,
-            BwFlight_id = ticketVM.BwFlight_id
+            Price = ticketListVM.TotalPrice,
+            FwFlight_id = ticketListVM.FwFlight_id,
+            BwFlight_id = ticketListVM.BwFlight_id,
+            FwFirst_ticket_num = ticketListVM.FwFirst_ticket_num,
+            FwSecond_ticket_num = ticketListVM.FwSecond_ticket_num,
+            FwThird_ticket_num = ticketListVM.FwThird_ticket_num,
+            BwFirst_ticket_num = ticketListVM.BwFirst_ticket_num,
+            BwSecond_ticket_num = ticketListVM.BwSecond_ticket_num,
+            BwThird_ticket_num = ticketListVM.BwThird_ticket_num,
+            FlightClass = ticketListVM.FlightClass
         };
 
-        var response = _ticketService.AddTicket(ticket);
+        var response = _ticketService.AddTicket(ticketVM);
         
         
         if (

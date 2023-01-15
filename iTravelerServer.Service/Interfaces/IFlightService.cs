@@ -13,5 +13,6 @@ namespace iTravelerServer.Service.Interfaces
         BaseResponse<List<FlightListVM>> GetFlightList();
         BaseResponse<bool> UpdateFlight(int flightId, Flight flight);
         BaseResponse<Flight> GetFlight(int flightId);
+        Task<BaseResponse<Flight>> AddFlight(Flight flightData);
     }   
 }
