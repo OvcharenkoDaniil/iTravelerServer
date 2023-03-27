@@ -1,6 +1,6 @@
 using System.Text;
 using Automarket;
-using iTraveler.Auth;
+
 using iTravelerServer.DAL;
 using iTravelerServer.Domain.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;

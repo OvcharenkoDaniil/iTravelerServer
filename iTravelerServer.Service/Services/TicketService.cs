@@ -1,5 +1,4 @@
-﻿using iTravelerServer.DAL;
-using iTravelerServer.DAL.Interfaces;
+﻿using iTravelerServer.DAL.Interfaces;
 using iTravelerServer.Domain.Entities;
 using iTravelerServer.Domain.Enum;
 using iTravelerServer.Domain.Response;

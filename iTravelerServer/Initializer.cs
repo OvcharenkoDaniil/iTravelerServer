@@ -21,6 +21,7 @@ namespace Automarket
              services.AddScoped<IBaseRepository<Airport>, AirportRepository>();
              services.AddScoped<IBaseRepository<Order>, OrderRepository>();
              services.AddScoped<IBaseRepository<Ticket>, TicketRepository>();
+             services.AddScoped<IBaseRepository<TicketDetail>, TicketDetailRepository>();
              services.AddScoped<IBaseRepository<Transfer>, TransferRepository>();
              //services.AddScoped<IBaseRepository<TicketListVM>, TicketListRepository>();
              

@@ -39,7 +39,7 @@ public class TicketRepository : IBaseRepository<Ticket>
     public async Task Delete(Ticket entity)
     {
         _db.Ticket.Remove(entity);
-        await _db.SaveChangesAsync();
+        _db.SaveChanges();
     }
     
     public async Task<Ticket> Update(Ticket entity)
@@ -53,7 +53,7 @@ public class TicketRepository : IBaseRepository<Ticket>
     public Ticket UpdateSync(Ticket entity)
     {
         _db.Ticket.Update(entity);
-        _db.SaveChangesAsync();
+        _db.SaveChanges();
 
         return entity;
     }

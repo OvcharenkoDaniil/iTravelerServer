@@ -9,5 +9,7 @@ public class Ticket
     public int Price { get; set; }
     public int FwFlight_id { get; set; }
     public int BwFlight_id { get; set; }
+    public int FwTicketDetail_id { get; set; }
+    public int BwTicketDetail_id { get; set; }
 
 }

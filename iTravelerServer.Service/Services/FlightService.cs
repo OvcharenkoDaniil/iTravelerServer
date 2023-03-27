@@ -24,6 +24,28 @@ namespace iTravelerServer.Service.Services
             _db = db;
         }
 
+        public async Task<BaseResponse<Flight>> AddFlight(Flight flightData)
+        {
+            var baseResponse = new BaseResponse<Flight>();
+            try
+            {
+                await _flightRepository.Create(flightData);
+
+                return new BaseResponse<Flight>()
+                {
+                    Description = "flight created",
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Flight>()
+                {
+                    Description = $"[AddFlight] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
 
         public BaseResponse<List<FlightListVM>> GetFlightList()
         {
@@ -162,8 +184,21 @@ namespace iTravelerServer.Service.Services
             try
             {
                 var flights = await _flightRepository.GetAll().ToListAsync();
-                baseResponse.Data = flights;
-                return baseResponse;
+                
+                if (flights != null)
+                {
+                    return new BaseResponse<IEnumerable<Flight>>()
+                    {
+                        Data = flights,
+                        StatusCode = StatusCode.OK
+                    };
+                }
+
+                return new BaseResponse<IEnumerable<Flight>>()
+                {
+                    Description = "There aren't flights",
+                    StatusCode = StatusCode.NotFound
+                };
             }
             catch (Exception ex)
             {
@@ -194,7 +229,7 @@ namespace iTravelerServer.Service.Services
                 };
             }
         }
-        
+
         public BaseResponse<bool> UpdateFlight(int flightId, Flight flightData)
         {
             var baseResponse = new BaseResponse<bool>();
@@ -203,12 +238,12 @@ namespace iTravelerServer.Service.Services
                 var dbFlight = _flightRepository.Get(flightId);
                 if (dbFlight == null)
                 {
-                    baseResponse.Description = "Car not found";
+                    baseResponse.Description = "Flight not found";
                     baseResponse.StatusCode = StatusCode.NotFound;
                     return baseResponse;
                 }
-        
-                
+
+
                 dbFlight.DepartureDate = flightData.DepartureDate;
                 dbFlight.ArrivalDate = flightData.ArrivalDate;
                 dbFlight.DepartureTime = flightData.DepartureTime;
@@ -218,10 +253,9 @@ namespace iTravelerServer.Service.Services
 
                 var a = dbFlight;
                 var res = _flightRepository.UpdateSync(dbFlight);
-                
+
                 return new BaseResponse<bool>()
                 {
-                    
                     Description = "Updated",
                     StatusCode = StatusCode.OK
                 };

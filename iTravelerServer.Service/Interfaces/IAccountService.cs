@@ -13,6 +13,8 @@ namespace iTravelerServer.Service.Interfaces
         Task<BaseResponse<Account>> Login(LoginRequestVM loginReq);
         Task<BaseResponse<Account>> Register(RegisterVM registerViewModel);
         Task<BaseResponse<Account>> ChangePassword(ChangePasswordVM userData);
+        Task<BaseResponse<Boolean>> DeleteAccount(AccountDeleteDataVM userData);
+
         string CreateJWT(Account account);
     }   
 }

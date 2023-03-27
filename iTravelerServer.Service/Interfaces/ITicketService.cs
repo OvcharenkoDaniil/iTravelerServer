@@ -1,7 +1,6 @@
 ﻿using iTravelerServer.Domain.Entities;
 using iTravelerServer.Domain.Response;
 using iTravelerServer.Domain.ViewModels.FlightVM;
-using iTravelerServer.Domain.ViewModels.TicketVM;
 
 namespace iTravelerServer.Service.Interfaces;
 

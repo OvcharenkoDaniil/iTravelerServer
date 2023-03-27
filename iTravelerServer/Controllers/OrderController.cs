@@ -47,13 +47,14 @@ public class OrderController : Controller
         var response = await _orderService.DeleteOrder(order.orderId);
         if (response.StatusCode == Domain.Enum.StatusCode.OK)
         {
+            
             return true;
         }
 
         return false;
     }
 
-    [Authorize(Roles = "User")]
+    [Authorize]
     [Route("GetOrders")]
     [HttpPost]
     public List<TicketListVM> GetOrders(AccountVM accountVm)
@@ -63,11 +64,11 @@ public class OrderController : Controller
         var response = _flightService.GetFlightList();
         if (response.StatusCode == Domain.Enum.StatusCode.OK)
         {
-            var listOfSortedTickets = _orderService.GetOrdersList(response.Data, accountVm.email, _ticketService);
-
-            if (listOfSortedTickets.StatusCode == Domain.Enum.StatusCode.OK)
+            var listOfOrders = _orderService.GetOrdersList(response.Data, accountVm.email, _ticketService);
+            listOfOrders = _orderService.ChangePrices(listOfOrders,accountVm.email);
+            if (listOfOrders.StatusCode == Domain.Enum.StatusCode.OK)
             {
-                return listOfSortedTickets.Data;
+                return listOfOrders.Data;
             }
         }
 

@@ -17,5 +17,6 @@ namespace iTravelerServer.Service.Interfaces
             ITicketService _ticketService);
 
         Task<BaseResponse<Order>> DeleteOrder(int orderId);
+        BaseResponse<List<TicketListVM>> ChangePrices(BaseResponse<List<TicketListVM>> listOfOrders,string email);
     }   
 }
