@@ -23,20 +23,6 @@ public class TransferService : ITransferService
         {
             var transfers = await _transferRepository.GetAll().ToListAsync();
 
-            // .Select(x => new CarViewModel()
-            // {
-            //     Id = x.Id,
-            //     Speed = x.Speed,
-            //     Name = x.Name,
-            //     Description = x.Description,
-            //     Model = x.Model,
-            //     DateCreate = x.DateCreate.ToLongDateString(),
-            //     Price = x.Price,
-            //     TypeCar = x.TypeCar.GetDisplayName()
-            // })
-            // .Where(x => EF.Functions.Like(x.Name, $"%{term}%"))
-            // .ToDictionaryAsync(x => x.Id, t => t.Name);
-
             baseResponse.Data = transfers;
             return baseResponse;
         }

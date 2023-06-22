@@ -53,7 +53,7 @@ namespace iTravelerServer.Service.Services
 
                 return new BaseResponse<IEnumerable<Account>>()
                 {
-                    Description = "There aren't users",
+                    Description = "There aren't any accounts",
                     StatusCode = StatusCode.NotFound
                 };
             }
@@ -125,7 +125,9 @@ namespace iTravelerServer.Service.Services
                 {
                     Email = registerData.Email,
                     Password = HashPasswordHelper.HashPassword(registerData.Password),
-                    Username = registerData.userName,
+                    FirstName = registerData.FirstName,
+                    SecondName = registerData.SecondName,
+                    PhoneNumber = registerData.PhoneNumber,
                     Role = Role.User
                 };
                 await _accountRepository.Create(user);
@@ -247,8 +249,56 @@ namespace iTravelerServer.Service.Services
                 };
             }
         }
+        public async Task<BaseResponse<Account>> ChangeEmail(AccountEmailDataVM userData)
+        {
+            var baseResponse = new BaseResponse<Account>();
+            try
+            {
+                var acc = new Account()
+                {
+                    Email = userData.newEmail
+                };
+                var existedUser = _accountRepository.Get(acc);
 
-        public async Task<BaseResponse<Boolean>> DeleteAccount(AccountDeleteDataVM userData)
+                if (existedUser==null)
+                {
+                    acc = new Account()
+                    {
+                        Email = userData.email
+                    };
+                    var currentUser = _accountRepository.Get(acc);
+                    currentUser.Email = userData.newEmail;
+                    await _accountRepository.Update(currentUser);
+
+                    existedUser = _accountRepository.Get(currentUser);
+                    if (existedUser.Email== userData.newEmail)
+                    {
+                        return new BaseResponse<Account>()
+                        {
+                            Description = "Email changed",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                }
+
+                return new BaseResponse<Account>()
+                {
+                    //Data = user,
+                    Description = "Email already exist",
+                    StatusCode = StatusCode.NotFound
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Account>()
+                {
+                    Description = $"[Email] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public async Task<BaseResponse<Boolean>> DeleteAccount(AccountEmailDataVM userData)
         {
             try
             {
@@ -297,7 +347,9 @@ namespace iTravelerServer.Service.Services
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.SecondName),
+                new Claim("phonenumber", user.PhoneNumber),
                 new Claim("role", user.Role.ToString())
             };
 

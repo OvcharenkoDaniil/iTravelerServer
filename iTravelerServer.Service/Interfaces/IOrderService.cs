@@ -10,13 +10,21 @@ namespace iTravelerServer.Service.Interfaces
 {
     public interface IOrderService
     {
-        Task<BaseResponse<List<Order>>> GetOrders();
-        Task<BaseResponse<Order>> AddOrder(OrderVM orderVM);
+        Task<BaseResponse<List<Order>>> GetAllOrders();
+        List<int> GetFwOrderDetail(int FlightId, string flightClass);
+        List<int> GetBwOrderDetail(int FlightId,string flightClass);
+        BaseResponse<OrderDetails> AddOrderDetails(OrderDetails orderDetail, List<int> listOfFreePlaces);
 
-        BaseResponse<List<TicketListVM>> GetOrdersList(List<FlightListVM> flightList, string email,
-            ITicketService _ticketService);
+        Task<BaseResponse<Order>> AddOrder(OrderDetails fwOrderDetails, OrderDetails bwOrderDetails,
+            OrderDetailsVM orderDetailsVM);
+        void CheckBaggageExtraPayment(OrderDetails orderDetail, int NumberOfTickets, int flight_id,
+            int extraBaggageWeight);
 
+        BaseResponse<List<TicketListVM>> GetOrdersList(List<FlightListVM> flightList, string email);
+
+        bool IsAvailable(OrderDetailsVM orderDetailsVM);
+        //
         Task<BaseResponse<Order>> DeleteOrder(int orderId);
-        BaseResponse<List<TicketListVM>> ChangePrices(BaseResponse<List<TicketListVM>> listOfOrders,string email);
+        // BaseResponse<List<TicketListVM>> ChangePrices(BaseResponse<List<TicketListVM>> listOfOrders,string email);
     }   
 }

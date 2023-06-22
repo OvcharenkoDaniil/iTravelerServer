@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj": {}
+    "D:\\University\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj": {}
   },
   "projects": {
-    "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj": {
+    "D:\\University\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj",
+        "projectUniqueName": "D:\\University\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj",
         "projectName": "iTravelerServer.Domain",
-        "projectPath": "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj",
-        "packagesPath": "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\",
-        "outputPath": "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\obj\\",
+        "projectPath": "D:\\University\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj",
+        "packagesPath": "C:\\Users\\9182d\\.nuget\\packages\\",
+        "outputPath": "D:\\University\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ovcharenko Daniil\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\9182d\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
         }
       }
     }

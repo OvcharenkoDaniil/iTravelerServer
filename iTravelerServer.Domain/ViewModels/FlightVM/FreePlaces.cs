@@ -2,6 +2,7 @@
 
 public class FreePlaces
 {
-    public string places { get; set; }
+    public string fwPlaces { get; set; }
+    public string bwPlaces { get; set; }
 
 }

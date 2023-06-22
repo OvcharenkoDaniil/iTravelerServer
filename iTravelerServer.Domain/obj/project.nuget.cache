@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "AmvMmIvOr0xlWo1IrVhZssDNpArwQsYbXpf5LQm2MCQ2oyDn+V/fmF2kg8T0g8JCJr7Jb3MAyJR4OEAeudw1YQ==",
+  "dgSpecHash": "HU6XMF/TZ2WGN6RLQBhIKp3KSJDULs7ziCayftmiqmWGHWxJmVUgC5/VudgJIMMdip1H+8fnyuwa45lGgVNv2g==",
   "success": true,
-  "projectFilePath": "D:\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj",
+  "projectFilePath": "D:\\University\\DIPLOM\\ITraveler\\Backend\\iTravelerServer\\iTravelerServer.Domain\\iTravelerServer.Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
-    "C:\\Users\\Ovcharenko Daniil\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+    "C:\\Users\\9182d\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\9182d\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

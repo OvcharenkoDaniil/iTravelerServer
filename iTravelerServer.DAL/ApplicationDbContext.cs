@@ -8,16 +8,19 @@ namespace iTravelerServer.DAL
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
         public DbSet<Airport> Airport { get; set; }
         public DbSet<Flight> Flight { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Plane> Plane { get; set; }
-        public DbSet<Ticket>Ticket { get; set; }
-        public DbSet<TicketDetail>TicketDetail { get; set; }
+        public DbSet<Baggage> Baggage { get; set; }
+        public DbSet<OrderDetails>OrderDetails { get; set; }
+        public DbSet<FlightDetails>FlightDetails { get; set; }
         public DbSet<Transfer> Transfer { get; set; }
         public DbSet<Account> Account { get; set; }
+        public DbSet<Place> Place { get; set; }
+        public DbSet<Facility> Facility { get; set; }
         
     }
 }

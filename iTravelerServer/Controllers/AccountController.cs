@@ -55,8 +55,19 @@ public class AccountController : Controller
     }
     
     //[Authorize(Roles = "Admin")]
+    [HttpPost("ChangeEmail")]
+    public async Task<Boolean> ChangeEmail(AccountEmailDataVM userData)
+    {
+        var response = await _accountService.ChangeEmail(userData);
+
+        if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return true;
+        }
+        return false;
+    }
     [HttpPost("DeleteAccount")]
-    public async Task<Boolean> DeleteAccount(AccountDeleteDataVM userData)
+    public async Task<Boolean> DeleteAccount(AccountEmailDataVM userData)
     {
         var response = await _accountService.DeleteAccount(userData);
 
@@ -84,7 +95,8 @@ public class AccountController : Controller
                     new UserDataVM()
                     {
                         email = account.Email,
-                        name = account.Username,
+                        firstName = account.FirstName,
+                        secondName = account.SecondName,
                         role = account.Role.ToString(),
                         account_id = account.Account_id
                     }

@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\iTraveler.Auth\iTraveler.Auth.csproj" />
+      
       <ProjectReference Include="..\iTravelerServer.DAL\iTravelerServer.DAL.csproj" />
       <ProjectReference Include="..\iTravelerServer.Service\iTravelerServer.Service.csproj" />
     </ItemGroup>

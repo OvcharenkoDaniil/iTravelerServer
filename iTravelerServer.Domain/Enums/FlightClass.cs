@@ -3,5 +3,6 @@
 public enum FlightClass
 {
     Standard,
+    Business,
     First
 }

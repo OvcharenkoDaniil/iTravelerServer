@@ -18,10 +18,15 @@ namespace Automarket.DAL.Repositories
     
         public async Task Create(Flight entity)
         {
-            await _db.Flight.AddAsync(entity);
-            await _db.SaveChangesAsync();
+             _db.Flight.Add(entity);
+             _db.SaveChanges();
         }
     
+        // public void CreateSync(Flight entity)
+        // {
+        //      _db.Flight.Add(entity);
+        //      _db.SaveChanges();
+        // }
         public IQueryable<Flight> GetAll()
         {
             return _db.Flight;

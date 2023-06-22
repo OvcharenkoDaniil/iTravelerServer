@@ -1,6 +1,6 @@
 ﻿namespace iTravelerServer.Domain.Entities;
 
-public class TicketSearchRequest
+public class SearchRequest
 {
     public DateTime DepartureDate { get; set; }
     
@@ -12,5 +12,6 @@ public class TicketSearchRequest
     
     public int NumberOfPassangers { get; set; }
     public string FlightClass { get; set; }
+    public bool IsOneSide { get; set; }
     
 }

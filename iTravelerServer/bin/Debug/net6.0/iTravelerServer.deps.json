@@ -12,7 +12,6 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.10",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.14.0",
           "Swashbuckle.AspNetCore": "6.2.3",
-          "iTraveler.Auth": "1.0.0",
           "iTravelerServer.DAL": "1.0.0",
           "iTravelerServer.Service": "1.0.0"
         },
@@ -500,15 +499,6 @@
           }
         }
       },
-      "iTraveler.Auth/1.0.0": {
-        "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "6.10.0",
-          "System.IdentityModel.Tokens.Jwt": "6.10.0"
-        },
-        "runtime": {
-          "iTraveler.Auth.dll": {}
-        }
-      },
       "iTravelerServer.DAL/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.10",
@@ -896,11 +886,6 @@
       "sha512": "sha512-CeWTdRNfRaSh0pm2gDTJFwVaXfTq6Xwv/sA887iwPTneW7oMtMlpvDIO+U60+3GWTB7Aom6oQwv5VZVUhQRdPQ==",
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
-    },
-    "iTraveler.Auth/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     },
     "iTravelerServer.DAL/1.0.0": {
       "type": "project",

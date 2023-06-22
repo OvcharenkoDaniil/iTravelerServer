@@ -16,13 +16,15 @@ namespace Automarket
         public static void InitializeRepositories(this IServiceCollection services)
         {
              services.AddScoped<IBaseRepository<Flight>, FlightRepository>();
+             services.AddScoped<IBaseRepository<FlightDetails>, FlightDetailsRepository>();
              services.AddScoped<IBaseRepository<Account>, AccountRepository>();
              services.AddScoped<IBaseRepository<Plane>, PlaneRepository>();
              services.AddScoped<IBaseRepository<Airport>, AirportRepository>();
              services.AddScoped<IBaseRepository<Order>, OrderRepository>();
-             services.AddScoped<IBaseRepository<Ticket>, TicketRepository>();
-             services.AddScoped<IBaseRepository<TicketDetail>, TicketDetailRepository>();
+             services.AddScoped<IBaseRepository<OrderDetails>, OrderDetailsRepository>();
+             services.AddScoped<IBaseRepository<Baggage>, BaggageRepository>();
              services.AddScoped<IBaseRepository<Transfer>, TransferRepository>();
+             services.AddScoped<IBaseRepository<Place>, PlaceRepository>();
              //services.AddScoped<IBaseRepository<TicketListVM>, TicketListRepository>();
              
         }
@@ -34,8 +36,9 @@ namespace Automarket
             services.AddScoped<IAirportService, AirportService>();
             services.AddScoped<IPlaneService, PlaneService>();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<ITicketService, TicketService>();
+            //services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IMailService, MailService>();
             
             //services.AddTransient<IAccountService, AccountService>();
         }
